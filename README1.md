@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
@@ -83,3 +84,5 @@ To learn more about React Native, take a look at the following resources:
 # btl_android_advance
 
 bài tập lớn môn android nâng cao kma
+
+> > > > > > > d78f107ea114c994ca01ba2b588455c1a4275f0d
