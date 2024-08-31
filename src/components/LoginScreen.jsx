@@ -6,17 +6,20 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import * as yup from 'yup';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import GradientButton from './GradientButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import {setUserId} from '../utils/userUtils';
 const API_APP = process.env['API_APP'];
 const test = process.env['TEST']; // lay bien moi truong
 // console.log(API_APP, test);
-export default function Login() {
+export default function Login({navigation}) {
   const [isSecure, setIsSecure] = useState(true);
 
   const toggleSecureEntry = () => {
@@ -46,23 +49,23 @@ export default function Login() {
     try {
       const {email, password} = formData;
       // console.log(email, password);
-      // const res = await fetch(`http://localhost:4000/v1/api/auth/login`, {
-      //   method: 'POST',
-      //   body: JSON.stringify({email, password}),
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      // });
-      // const res = await axios.post('http://localhost:4000/v1/api/auth/login', {
-      //   email,
-      //   password,
-      // });
-      const res = await fetch(`${API_APP}/test`, {
-        method: 'GET',
+      const res = await fetch(`${API_APP}/v1/api/auth/login`, {
+        method: 'POST',
+        body: JSON.stringify({email, password}),
         headers: {
           'Content-Type': 'application/json',
         },
       });
+      // const res = await axios.post('http://localhost:4000/v1/api/auth/login', {
+      //   email,
+      //   password,
+      // });
+      // const res = await fetch(`${API_APP}/test`, {
+      //   method: 'GET',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      // });
       // const res = await fetch('http://192.168.0.3:4000/test', {
       //   method: 'GET',
       //   headers: {
@@ -70,11 +73,17 @@ export default function Login() {
       //   },
       // });
       if (!res.ok) {
-        console.log('Error');
+        const result = await res.json();
+        // console.log(result.message);
+        Alert.alert('Login Failed', `${result.message}`);
         return;
       }
       const data = await res.json();
-      console.log(data);
+      const userId = data.data.id.toString();
+      // await AsyncStorage.setItem('user_id', userId);
+      setUserId(userId);
+      navigation.navigate('Home');
+      // console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -142,8 +151,8 @@ export default function Login() {
         <View style={styles.container_btn_submit}>
           <GradientButton
             title="Đăng nhập"
-            // onPress={handleSubmit(onPressSend)}
-            onPress={onPressSend}
+            onPress={handleSubmit(onPressSend)}
+            // onPress={onPressSend}
           />
         </View>
       </View>
