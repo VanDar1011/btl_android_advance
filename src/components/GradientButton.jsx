@@ -6,7 +6,7 @@ const GradientButton = ({title, onPress}) => {
   return (
     <Pressable onPress={onPress} style={styles.btn_submit}>
       <LinearGradient
-        colors={['#2c3e50', '#34495e', '#3b5998', '#2c3e50', '#192f6a']}
+        colors={['#00E563', '#2E8B57', '#2E8B57', '#32CD32']}
         start={{x: 0, y: 0.5}}
         end={{x: 1, y: 0.5}}
         style={styles.button}>
@@ -18,8 +18,9 @@ const GradientButton = ({title, onPress}) => {
 
 const styles = StyleSheet.create({
   btn_submit: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%',
+    // alignItems: 'center',
+    // justifyContent: 'center',
     overflow: 'hidden',
   },
   button: {

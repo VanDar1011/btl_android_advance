@@ -1,7 +1,9 @@
 import React from 'react';
 import {View, Text, Button, StyleSheet, Pressable, Image} from 'react-native';
-
+import {getUserId} from '../utils/userUtils';
 export default function Home({navigation}) {
+  const userId = getUserId();
+  console.log('userId: ', userId);
   const handleCartPress = () => {
     navigation.navigate('Cart');
   };
