@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   Image,
+  Pressable,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import * as yup from 'yup';
@@ -48,26 +49,25 @@ export default function Login({navigation}) {
     // Perform actions with the validated form data
     // console.log(formData);
     try {
-      const {email, password} = formData;
+      // const {email, password} = formData;
       // console.log(email, password);
       const res = await fetch(`${API_APP}/v1/api/auth/login`, {
         method: 'POST',
-        body: JSON.stringify({email, password}),
+        body: JSON.stringify(formData),
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
+      const result = await res.json();
       if (!res.ok) {
-        const result = await res.json();
-        // console.log(result.message);
+        console.log(result.message);
         Alert.alert('Login Failed', `${result.message}`);
         return;
       }
-      const data = await res.json();
-      const userId = data.data.id.toString();
+      const userId = result.data.id.toString();
       // await AsyncStorage.setItem('user_id', userId);
       setUserId(userId);
+      Alert.alert('Login Success', `${result.message}`);
       navigation.navigate('Home');
       // console.log(data);
     } catch (error) {
@@ -117,7 +117,7 @@ export default function Login({navigation}) {
                 onChangeText={onChange}
                 placeholder="Password"
                 secureTextEntry={isSecure}
-                style={styles.input}
+                style={[styles.input, styles.input_password]}
               />
             )}
             name="password"
@@ -126,7 +126,7 @@ export default function Login({navigation}) {
             <TouchableOpacity onPress={toggleSecureEntry}>
               <Icon
                 name={isSecure ? 'eye' : 'eye-slash'}
-                size={20}
+                size={15}
                 color="#000"
               />
             </TouchableOpacity>
@@ -147,7 +147,9 @@ export default function Login({navigation}) {
       </View>
       <View style={styles.container_link_register}>
         <Text>Chưa có tài khoản ?</Text>
-        <Text style={styles.text_link_register}>Đăng kí</Text>
+        <Pressable onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.text_link_register}>Đăng kí</Text>
+        </Pressable>
       </View>
     </View>
     // </ImageBackground>
@@ -174,18 +176,21 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   container_input: {
-    width: '85%',
+    width: '75%',
     justifyContent: 'center',
   },
   input: {
-    height: 60,
-    margin: 10,
-    paddingHorizontal: 20,
+    height: 50,
+    margin: 5,
+    paddingHorizontal: 15,
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#000000',
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '400',
+  },
+  input_password: {
+    fontSize: 16,
   },
   container_error: {
     paddingLeft: 20,
@@ -195,7 +200,7 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   container_btn_submit: {
-    width: '80%',
+    width: '75%',
     marginVertical: 40,
     justifyContent: 'center',
     alignItems: 'center',
@@ -203,12 +208,12 @@ const styles = StyleSheet.create({
   container_icon_input: {
     position: 'relative',
     width: '100%',
-    height: 80,
+    height: 60,
   },
   icon_eye: {
     poisition: 'absolute',
     left: '87%',
-    top: '-60%',
+    top: '-65%',
   },
   link_register: {
     color: 'blue',
