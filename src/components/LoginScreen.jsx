@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Alert,
+  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import * as yup from 'yup';
@@ -56,22 +57,7 @@ export default function Login({navigation}) {
           'Content-Type': 'application/json',
         },
       });
-      // const res = await axios.post('http://localhost:4000/v1/api/auth/login', {
-      //   email,
-      //   password,
-      // });
-      // const res = await fetch(`${API_APP}/test`, {
-      //   method: 'GET',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      // });
-      // const res = await fetch('http://192.168.0.3:4000/test', {
-      //   method: 'GET',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      // });
+
       if (!res.ok) {
         const result = await res.json();
         // console.log(result.message);
@@ -89,12 +75,37 @@ export default function Login({navigation}) {
     }
   };
   return (
-    <ImageBackground
-      source={require('../assets/img/bg.jpg')} // Replace with your image URL
-      style={styles.backgroundImage}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Đăng nhập tài khoản</Text>
-        <View style={styles.container_input}>
+    // <ImageBackground
+    //   source={require('../assets/img/bg.jpg')} // Replace with your image URL
+    //   style={styles.backgroundImage}>
+    <View style={styles.container}>
+      <Image
+        source={require('../assets/img/logo_stand.png')}
+        style={styles.logo}
+      />
+      <Text style={styles.title}>Welcome back !</Text>
+      <View style={styles.container_input}>
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({field: {onChange, value}}) => (
+            <TextInput
+              value={value}
+              onChangeText={onChange}
+              placeholder="Email của bạn"
+              style={styles.input}
+            />
+          )}
+          name="email"
+        />
+        <View style={styles.container_error}>
+          {errors.email && (
+            <Text style={styles.text_error}>{errors.email.message}</Text>
+          )}
+        </View>
+        <View style={styles.container_icon_input}>
           <Controller
             control={control}
             rules={{
@@ -104,76 +115,62 @@ export default function Login({navigation}) {
               <TextInput
                 value={value}
                 onChangeText={onChange}
-                placeholder="Email"
+                placeholder="Password"
+                secureTextEntry={isSecure}
                 style={styles.input}
               />
             )}
-            name="email"
+            name="password"
           />
-          <View style={styles.container_error}>
-            {errors.email && (
-              <Text style={styles.text_error}>{errors.email.message}</Text>
-            )}
-          </View>
-          <View style={styles.container_icon_input}>
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({field: {onChange, value}}) => (
-                <TextInput
-                  value={value}
-                  onChangeText={onChange}
-                  placeholder="Password"
-                  secureTextEntry={isSecure}
-                  style={styles.input}
-                />
-              )}
-              name="password"
-            />
-            <View style={styles.icon_eye}>
-              <TouchableOpacity onPress={toggleSecureEntry}>
-                <Icon
-                  name={isSecure ? 'eye' : 'eye-slash'}
-                  size={20}
-                  color="#000"
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.container_error}>
-            {errors.password && (
-              <Text style={styles.text_error}>{errors.password.message}</Text>
-            )}
+          <View style={styles.icon_eye}>
+            <TouchableOpacity onPress={toggleSecureEntry}>
+              <Icon
+                name={isSecure ? 'eye' : 'eye-slash'}
+                size={20}
+                color="#000"
+              />
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.container_btn_submit}>
-          <GradientButton
-            title="Đăng nhập"
-            onPress={handleSubmit(onPressSend)}
-            // onPress={onPressSend}
-          />
+        <View style={styles.container_error}>
+          {errors.password && (
+            <Text style={styles.text_error}>{errors.password.message}</Text>
+          )}
         </View>
       </View>
-    </ImageBackground>
+      <View style={styles.container_btn_submit}>
+        <GradientButton
+          title="Đăng nhập"
+          onPress={handleSubmit(onPressSend)}
+          // onPress={onPressSend}
+        />
+      </View>
+      <View style={styles.container_link_register}>
+        <Text>Chưa có tài khoản ?</Text>
+        <Text style={styles.text_link_register}>Đăng kí</Text>
+      </View>
+    </View>
+    // </ImageBackground>
   );
 }
 const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-    resizeMode: 'cover', // or 'stretch', depending on your needs
-    justifyContent: 'center',
-  },
+  // backgroundImage: {
+  //   flex: 1,
+  //   resizeMode: 'cover', // or 'stretch', depending on your needs
+  //   justifyContent: 'center',
+  // },
   container: {
     alignItems: 'center',
     justifyContent: 'center',
     height: '100%',
   },
+  logo: {
+    width: 150,
+    height: 150,
+  },
   title: {
-    marginVertical: 20,
+    marginVertical: 10,
     fontSize: 30,
-    fontWeight: 'bold',
     color: '#000000',
   },
   container_input: {
@@ -198,6 +195,7 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   container_btn_submit: {
+    width: '80%',
     marginVertical: 40,
     justifyContent: 'center',
     alignItems: 'center',
@@ -211,5 +209,18 @@ const styles = StyleSheet.create({
     poisition: 'absolute',
     left: '87%',
     top: '-60%',
+  },
+  link_register: {
+    color: 'blue',
+  },
+  container_link_register: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    columnGap: 10,
+  },
+  text_link_register: {
+    font_weight: 'bold',
+    color: 'black',
+    textDecorationLine: 'underline',
   },
 });
