@@ -1,9 +1,7 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, Button, StyleSheet, Pressable, Image} from 'react-native';
-import {getUserId} from '../utils/userUtils';
+import {getUserId, getUserName, getProfile} from '../utils/userUtils';
 export default function Home({navigation}) {
-  const userId = getUserId();
-  console.log('userId: ', userId);
   const handleCartPress = () => {
     navigation.navigate('Cart');
   };
@@ -25,6 +23,17 @@ export default function Home({navigation}) {
   const handleLogoutPress = () => {
     navigation.navigate('Login');
   };
+  const [profile, setProfile] = useState({userId: null, name: null});
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const {userId, name} = await getProfile();
+      console.log({userId, name});
+      setProfile({userId, name});
+    };
+
+    fetchProfile();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.row}>

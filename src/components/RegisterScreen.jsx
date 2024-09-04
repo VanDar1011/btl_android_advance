@@ -15,13 +15,18 @@ import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import GradientButton from './GradientButton';
-import {NavigationContainer} from '@react-navigation/native';
+import {CheckBox} from 'react-native-elements';
+
 const API_APP = process.env['API_APP'];
 
 export default function Register({navigation}) {
   const [isSecure, setIsSecure] = useState(true);
   const [isSecureConfirm, setIsSecureConfirm] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
 
+  const handleCheckBoxToggle = () => {
+    setIsChecked(!isChecked);
+  };
   const toggleSecureEntry = () => {
     setIsSecure(!isSecure);
   };
@@ -82,6 +87,20 @@ export default function Register({navigation}) {
       navigation.navigate('Login');
     } catch (error) {
       console.log(error);
+    }
+  };
+  const handleProceed = () => {
+    if (isChecked) {
+      // Logic to proceed to the next screen or action
+      Alert.alert(
+        'Cảm ơn!',
+        'Bạn đã chấp nhận các điều khoản và chính sách quyền riêng tư.',
+      );
+    } else {
+      Alert.alert(
+        'Thông báo',
+        'Vui lòng chấp nhận các điều khoản và chính sách quyền riêng tư để tiếp tục.',
+      );
     }
   };
 
@@ -207,6 +226,18 @@ export default function Register({navigation}) {
               </Text>
             )}
           </View>
+          <View style={styles.container_check}>
+            <CheckBox
+              checked={isChecked}
+              onPress={handleCheckBoxToggle}
+              containerStyle={styles.checkbox}
+              textStyle={styles.checkboxText}
+            />
+            <Pressable
+              onPress={() => navigation.navigate('TermsPrivacyScreen')}>
+              <Text>Các điều khoản{' \n'} và chính sách quyền riêng tư</Text>
+            </Pressable>
+          </View>
         </View>
         <View style={styles.container_btn_submit}>
           <GradientButton
@@ -300,5 +331,21 @@ const styles = StyleSheet.create({
     font_weight: 'bold',
     color: 'black',
     textDecorationLine: 'underline',
+  },
+  checkboxContainer: {
+    marginTop: 20,
+    marginBottom: 30,
+  },
+  checkbox: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+  },
+  checkboxText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  container_check: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

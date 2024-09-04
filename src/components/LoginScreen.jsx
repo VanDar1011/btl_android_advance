@@ -17,7 +17,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import GradientButton from './GradientButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import {setUserId} from '../utils/userUtils';
+import {setUserId, setUserName, setProfile} from '../utils/userUtils';
 const API_APP = process.env['API_APP'];
 const test = process.env['TEST']; // lay bien moi truong
 // console.log(API_APP, test);
@@ -51,6 +51,14 @@ export default function Login({navigation}) {
     try {
       // const {email, password} = formData;
       // console.log(email, password);
+      // const res1 = await fetch(`http://192.168.0.3:4000/test`, {
+      //   method: 'GET',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      // });
+      // const result1 = await res1.json();
+      // console.log(result1);
       const res = await fetch(`${API_APP}/v1/api/auth/login`, {
         method: 'POST',
         body: JSON.stringify(formData),
@@ -65,11 +73,10 @@ export default function Login({navigation}) {
         return;
       }
       const userId = result.data.id.toString();
-      // await AsyncStorage.setItem('user_id', userId);
-      setUserId(userId);
+      const username = result.data.name.toString();
+      setProfile(userId, username);
       Alert.alert('Login Success', `${result.message}`);
-      navigation.navigate('Home');
-      // console.log(data);
+      navigation.navigate('Vip');
     } catch (error) {
       console.log(error);
     }
