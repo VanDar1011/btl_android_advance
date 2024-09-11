@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  Button,
   StyleSheet,
   Pressable,
   Image,
@@ -11,6 +10,7 @@ import {
 import {getUserId, getUserName, getProfile} from '../utils/userUtils';
 export default function HomeVip({navigation}) {
   const handleCartPress = () => {
+    console.log('Cart Pressed');
     navigation.navigate('Cart');
   };
 
@@ -84,7 +84,7 @@ export default function HomeVip({navigation}) {
               style={styles.item_service}
               onPress={handleAppointmentPress}>
               <Image
-                source={require('../assets/img/medicalAppointment.png')}
+                source={require('../assets/icon/medicalAppointment.png')}
                 style={styles.img_item_service}
               />
             </Pressable>
@@ -95,7 +95,7 @@ export default function HomeVip({navigation}) {
               style={styles.item_service}
               onPress={handleMedicinesPress}>
               <Image
-                source={require('../assets/img/medicine.png')}
+                source={require('../assets/icon/medicine.png')}
                 style={styles.img_item_service}
               />
             </Pressable>
@@ -104,7 +104,7 @@ export default function HomeVip({navigation}) {
           <View>
             <Pressable style={styles.item_service} onPress={handleCartPress}>
               <Image
-                source={require('../assets/img/cart.png')}
+                source={require('../assets/icon/cart.png')}
                 style={styles.img_item_service}
               />
             </Pressable>
@@ -115,7 +115,7 @@ export default function HomeVip({navigation}) {
               style={styles.item_service}
               onPress={handleArticlesPress}>
               <Image
-                source={require('../assets/img/blog.png')}
+                source={require('../assets/icon/blog.png')}
                 style={styles.img_item_service}
               />
             </Pressable>
@@ -222,6 +222,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 2,
     borderColor: '#cccccc',
+    zIndex: 1,
   },
   img_item_service: {
     width: 40,

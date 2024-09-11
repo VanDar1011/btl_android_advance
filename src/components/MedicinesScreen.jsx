@@ -48,7 +48,7 @@ export default function Medicines({navigation}) {
         <Text style={styles.title_medicine}>Mua thuốc</Text>
         <Pressable onPress={handleNavigatorCart}>
           <Image
-            source={require('../assets/img/cart.png')}
+            source={require('../assets/icon/cart.png')}
             style={styles.img_item_service}
           />
         </Pressable>
@@ -69,7 +69,7 @@ export default function Medicines({navigation}) {
       <View style={styles.contaniner_note}>
         <View style={styles.container_icon_note}>
           <Image
-            source={require('../assets/img/note.png')}
+            source={require('../assets/icon/note.png')}
             style={styles.img_item_service}
           />
         </View>
@@ -83,7 +83,7 @@ export default function Medicines({navigation}) {
         <View style={styles.container_icon_note}>
           <Pressable onPress={handleArrow}>
             <Image
-              source={require('../assets/img/arrow.png')}
+              source={require('../assets/icon/arrow.png')}
               style={styles.icon_arrow}
             />
           </Pressable>

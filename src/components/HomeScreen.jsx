@@ -43,7 +43,7 @@ export default function Home({navigation}) {
             style={styles.presessable}>
             <View style={styles.row_card}>
               <Image
-                source={require('../assets/img/medicalAppointment.png')}
+                source={require('../assets/icon/medicalAppointment.png')}
                 style={styles.image}
               />
               <Text style={styles.text_white}>Đặt lịch khám</Text>
@@ -54,7 +54,7 @@ export default function Home({navigation}) {
           <Pressable onPress={handleMedicinesPress} style={styles.presessable}>
             <View style={styles.row_card}>
               <Image
-                source={require('../assets/img/medicine.png')}
+                source={require('../assets/icon/medicine.png')}
                 style={styles.image}
               />
               <Text style={styles.text_white}>Mua thuốc</Text>
@@ -69,7 +69,7 @@ export default function Home({navigation}) {
             style={styles.presessable}>
             <View style={styles.row_card}>
               <Image
-                source={require('../assets/img/appointmentDetail.png')}
+                source={require('../assets/icon/appointmentDetail.png')}
                 style={styles.image}
               />
               <Text style={styles.text_white}>Lịch hẹn</Text>
@@ -80,7 +80,7 @@ export default function Home({navigation}) {
           <Pressable onPress={handleArticlesPress} style={styles.presessable}>
             <View style={styles.row_card}>
               <Image
-                source={require('../assets/img/blog.png')}
+                source={require('../assets/icon/blog.png')}
                 style={styles.image}
               />
               <Text style={styles.text_white}>Bài viết về sức khỏe</Text>
@@ -93,7 +93,7 @@ export default function Home({navigation}) {
           <Pressable onPress={handleCartPress} style={styles.presessable}>
             <View style={styles.row_card}>
               <Image
-                source={require('../assets/img/cart.png')}
+                source={require('../assets/icon/cart.png')}
                 style={styles.image}
               />
               <Text style={styles.text_white}>Giỏ hàng</Text>
@@ -104,7 +104,7 @@ export default function Home({navigation}) {
           <Pressable onPress={handleLogoutPress} style={styles.presessable}>
             <View style={styles.row_card}>
               <Image
-                source={require('../assets/img/logout.png')}
+                source={require('../assets/icon/logout.png')}
                 style={styles.image}
               />
               <Text style={styles.text_white}>Đăng xuất</Text>
