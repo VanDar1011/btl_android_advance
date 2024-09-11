@@ -3,25 +3,22 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
-  ImageBackground,
   TouchableOpacity,
   Alert,
   Image,
   Pressable,
 } from 'react-native';
+import styles from './style';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import * as yup from 'yup';
 import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import GradientButton from './GradientButton';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import {setUserId} from '../utils/userUtils';
+import GradientButton from '../../../components/GradientButton';
+import {setProfile} from '../../../utils/user/profileUser';
 const API_APP = process.env['API_APP'];
 const test = process.env['TEST']; // lay bien moi truong
 // console.log(API_APP, test);
-export default function Login({navigation}) {
+export default function LoginScreen({navigation}) {
   const [isSecure, setIsSecure] = useState(true);
 
   const toggleSecureEntry = () => {
@@ -51,6 +48,14 @@ export default function Login({navigation}) {
     try {
       // const {email, password} = formData;
       // console.log(email, password);
+      // const res1 = await fetch(`http://192.168.0.3:4000/test`, {
+      //   method: 'GET',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      // });
+      // const result1 = await res1.json();
+      // console.log(result1);
       const res = await fetch(`${API_APP}/v1/api/auth/login`, {
         method: 'POST',
         body: JSON.stringify(formData),
@@ -65,11 +70,10 @@ export default function Login({navigation}) {
         return;
       }
       const userId = result.data.id.toString();
-      // await AsyncStorage.setItem('user_id', userId);
-      setUserId(userId);
+      const username = result.data.name.toString();
+      setProfile(userId, username);
       Alert.alert('Login Success', `${result.message}`);
-      navigation.navigate('Home');
-      // console.log(data);
+      navigation.navigate('Vip');
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +84,7 @@ export default function Login({navigation}) {
     //   style={styles.backgroundImage}>
     <View style={styles.container}>
       <Image
-        source={require('../assets/img/logo_stand.png')}
+        source={require('../../../assets/img/logo_stand.png')}
         style={styles.logo}
       />
       <Text style={styles.title}>Welcome back !</Text>
@@ -155,77 +159,3 @@ export default function Login({navigation}) {
     // </ImageBackground>
   );
 }
-const styles = StyleSheet.create({
-  // backgroundImage: {
-  //   flex: 1,
-  //   resizeMode: 'cover', // or 'stretch', depending on your needs
-  //   justifyContent: 'center',
-  // },
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100%',
-  },
-  logo: {
-    width: 150,
-    height: 150,
-  },
-  title: {
-    marginVertical: 10,
-    fontSize: 30,
-    color: '#000000',
-  },
-  container_input: {
-    width: '75%',
-    justifyContent: 'center',
-  },
-  input: {
-    height: 50,
-    margin: 5,
-    paddingHorizontal: 15,
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: '#000000',
-    fontSize: 16,
-    fontWeight: '400',
-  },
-  input_password: {
-    fontSize: 16,
-  },
-  container_error: {
-    paddingLeft: 20,
-    height: 20,
-  },
-  text_error: {
-    color: 'red',
-  },
-  container_btn_submit: {
-    width: '75%',
-    marginVertical: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  container_icon_input: {
-    position: 'relative',
-    width: '100%',
-    height: 60,
-  },
-  icon_eye: {
-    poisition: 'absolute',
-    left: '87%',
-    top: '-65%',
-  },
-  link_register: {
-    color: 'blue',
-  },
-  container_link_register: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    columnGap: 10,
-  },
-  text_link_register: {
-    font_weight: 'bold',
-    color: 'black',
-    textDecorationLine: 'underline',
-  },
-});

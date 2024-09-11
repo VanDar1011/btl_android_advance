@@ -83,3 +83,4 @@ To learn more about React Native, take a look at the following resources:
 # btl_android_advance
 
 bài tập lớn môn android nâng cao kma
+device ==> deviceId
