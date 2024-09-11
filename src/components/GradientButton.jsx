@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TouchableOpacity, Pressable, StyleSheet} from 'react-native';
+import {Text, Pressable, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 const GradientButton = ({title, onPress}) => {

@@ -2,64 +2,64 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
-import Home from '../components/HomeScreen';
-import HomeVip from '../components/HomeScreenVip';
-import Cart from '../components/CartScreen';
-import Medicines from '../components/MedicinesScreen';
-import Login from '../components/LoginScreen';
-import Register from '../components/RegisterScreen';
-import Appointment from '../components/AppointmentScreen';
-import Articles from '../components/ArticlesScreen';
-import AppointmentDetails from '../components/AppointmentDetailsScreen';
+import HomeVip from '../screen/HomeScreen';
+import CartScreen from '../screen/CartScreen';
+import LoginScreen from '../screen/auth/LoginScreen';
+import RegisterScreen from '../screen/auth/RegisterScreen';
+import AppointmentScreen from '../screen/AppointmentScreen';
+import ArticlesScreen from '../screen/ArticlesScreen';
+import AppointmentDetailsScreen from '../screen/AppointmentDetailsScreen';
 import MedicineBenefitScreen from '../components/MedicineBenefitScreen';
 import TermsPrivacyScreen from '../components/TermsPrivacyScreen';
+import DetailsMedicineScreen from '../screen/DetailsMedicineScreen';
+import MedicinesScreen from '../screen/MedicinesScreen';
 const Routes = ({navigation}) => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Vip">
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           name="Home"
-          component={Home}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Vip"
           component={HomeVip}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="Cart"
-          component={Cart}
+          component={CartScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="Medicines"
-          component={Medicines}
+          component={MedicinesScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DetailsMedicine"
+          component={DetailsMedicineScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="Login"
-          component={Login}
+          component={LoginScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="Register"
-          component={Register}
+          component={RegisterScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="Appointment"
-          component={Appointment}
+          component={AppointmentScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="Articles"
-          component={Articles}
+          component={ArticlesScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="AppointmentDetails"
-          component={AppointmentDetails}
+          component={AppointmentDetailsScreen}
         />
         <Stack.Screen
           name="BenefitScreen"

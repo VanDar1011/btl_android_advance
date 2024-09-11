@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import ItemMedicines from './ItemMedicines';
 export default function ListMedicines({navigation, medicines}) {
   //   console.log(medicines);
   return (
-    <View>
+    <ScrollView style={styles.view_holder}>
       <Text style={styles.title_medicine}>Danh sách thuốc</Text>
       <View style={styles.container}>
         {medicines.map((item, index) => {
@@ -13,10 +13,13 @@ export default function ListMedicines({navigation, medicines}) {
           );
         })}
       </View>
-    </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({
+  view_holder: {
+    paddingRight: 3,
+  },
   title_medicine: {
     fontSize: 20,
     fontWeight: 'bold',

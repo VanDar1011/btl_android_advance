@@ -1,41 +1,43 @@
-import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import {Rating} from 'react-native-ratings';
+import formatCurrency from '../utils/formatMoney';
 export default function ItemMedicines({item, navigation}) {
-  const formatCurrency = value => {
-    return new Intl.NumberFormat('vi-VN', {
-      style: 'currency',
-      currency: 'VND',
-    }).format(value);
+  const [medicine, setMedicine] = useState(item);
+  const handleMedicineDetail = () => {
+    console.log('medicine :', medicine);
+    navigation.navigate('DetailsMedicine', {item: medicine});
   };
   return (
     <View style={styles.item_medicines}>
-      <View style={styles.container_img}>
-        <Image
-          source={{uri: item.image}}
-          style={styles.image}
-          resizeMode="cover"
-        />
-      </View>
-      <View styles={styles.container_name}>
-        <Text>{item.name}</Text>
-        <View style={styles.container_price}>
-          <Text style={styles.text_new_price}>
-            {formatCurrency(item.old_price)}
-          </Text>
-          <Text style={styles.text_old_price}>
-            {formatCurrency(item.new_price)}
-          </Text>
+      <Pressable onPress={handleMedicineDetail}>
+        <View style={styles.container_img}>
+          <Image
+            source={{uri: item.image}}
+            style={styles.image}
+            resizeMode="cover"
+          />
         </View>
-        <Rating
-          startingValue={item.rate}
-          imageSize={10}
-          readonly
-          fractions={1}
-          style={styles.container_rate}
-        />
-        {/* <Text>{rating.toFixed(1)}</Text> */}
-      </View>
+        <View styles={styles.container_name}>
+          <Text>{item.name}</Text>
+          <View style={styles.container_price}>
+            <Text style={styles.text_new_price}>
+              {formatCurrency(item.old_price)}
+            </Text>
+            <Text style={styles.text_old_price}>
+              {formatCurrency(item.new_price)}
+            </Text>
+          </View>
+          <Rating
+            startingValue={item.rate}
+            imageSize={10}
+            readonly
+            fractions={1}
+            style={styles.container_rate}
+          />
+          {/* <Text>{rating.toFixed(1)}</Text> */}
+        </View>
+      </Pressable>
     </View>
   );
 }

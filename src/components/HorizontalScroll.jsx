@@ -1,13 +1,35 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Pressable, ScrollView} from 'react-native';
-
-const HorizontalScrollScreen = () => {
+import fetchMedicinesCategories from '../utils/medicines/fetchMedicineCategories';
+import ItemCategory from './ItemCategory';
+import fetchMedicinesByCategory from '../utils/medicines/fectchMedicinesByCategory';
+import fetchMedicines from '../utils/medicines/fetchMedicines';
+const HorizontalScroll = ({setMedicines}) => {
+  const [categories, setCategories] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
-
-  const handlePress = option => {
-    setSelectedOption(option);
+  const handlePressAll = async name => {
+    setSelectedOption(name);
+    try {
+      await fetchMedicines(setMedicines);
+    } catch (error) {
+      console.error('Error fetching medicines:', error);
+    }
   };
-
+  const handlePress = async (name, id) => {
+    console.log(name, id);
+    setSelectedOption(name);
+    try {
+      await fetchMedicinesByCategory(id, setMedicines);
+    } catch (error) {
+      console.error('Error fetching medicines:', error);
+    }
+  };
+  useEffect(() => {
+    fetchMedicinesCategories(setCategories);
+  }, []);
+  // useEffect(() => {
+  //   console.log(categories);
+  // }, [categories]);
   return (
     <View style={styles.container}>
       <ScrollView
@@ -19,7 +41,7 @@ const HorizontalScrollScreen = () => {
             styles.button,
             selectedOption === 'all' && styles.activeButton,
           ]}
-          onPress={() => handlePress('all')}>
+          onPress={() => handlePressAll('all')}>
           <Text
             style={[
               styles.buttonText,
@@ -28,7 +50,17 @@ const HorizontalScrollScreen = () => {
             All
           </Text>
         </Pressable>
-        <Pressable
+        {categories.map((item, index) => {
+          return (
+            <ItemCategory
+              key={index}
+              category={item}
+              handlePress={handlePress}
+              selectedOption={selectedOption}
+            />
+          );
+        })}
+        {/* <Pressable
           style={[
             styles.button,
             selectedOption === 'option1' && styles.activeButton,
@@ -97,7 +129,7 @@ const HorizontalScrollScreen = () => {
             ]}>
             Option 5
           </Text>
-        </Pressable>
+        </Pressable>{' '} */}
         {/* Add more Pressable components as needed */}
       </ScrollView>
     </View>
@@ -134,4 +166,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HorizontalScrollScreen;
+export default HorizontalScroll;
