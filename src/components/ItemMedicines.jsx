@@ -5,7 +5,7 @@ import formatCurrency from '../utils/formatMoney';
 export default function ItemMedicines({item, navigation}) {
   const [medicine, setMedicine] = useState(item);
   const handleMedicineDetail = () => {
-    console.log('medicine :', medicine);
+    // console.log('medicine :', medicine);
     navigation.navigate('DetailsMedicine', {item: medicine});
   };
   return (

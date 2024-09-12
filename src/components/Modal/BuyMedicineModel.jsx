@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {Modal, View, Text, Animated, Easing, Pressable} from 'react-native';
-import Slider from '@react-native-community/slider';
 import styles from './style';
 import VerticalQuantityPicker from '../VerticalQuantityPicker';
 export default function BuyMedicineModel({
@@ -42,7 +41,7 @@ export default function BuyMedicineModel({
         <Animated.View
           style={[styles.modalContainer, {transform: [{translateY: modalY}]}]}>
           <Text style={styles.modalTitle}>Số sản phẩm muốn mua</Text>
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <View style={styles.container_quantity}>
             <VerticalQuantityPicker
               quantity={quantity}
               handleDecrease={handleDecrease}
