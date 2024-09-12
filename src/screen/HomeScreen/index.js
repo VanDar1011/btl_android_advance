@@ -31,7 +31,7 @@ export default function HomeVip({navigation}) {
     const fetchProfile = async () => {
       const {userId, name} = await getProfile();
       console.log({userId, name});
-      setProfile({userId, name});
+      // setProfile({userId, name});
     };
 
     fetchProfile();

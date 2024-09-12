@@ -1,21 +1,30 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {View, Text, Image, Pressable} from 'react-native';
 import styles from './style';
 import fetchMedicines from '../../utils/medicines/fetchMedicines';
 import {SearchBar} from 'react-native-elements';
-import {debounce} from '../../utils/debounce';
+// import {debounce} from '../../utils/debounce';
+import debounce from 'lodash.debounce';
 import HorizontalScroll from '../../components/HorizontalScroll';
 import ListMedicines from '../../components/ListMedicines';
+import searchMedicineByName from '../../utils/medicines/searchMedicineByName';
 export default function MedicinesScreen({navigation}) {
   const [medicines, setMedicines] = useState([]);
   const [search, setSearch] = useState('');
+  // const [selectedOption, setSelectedOption] = useState(null);
+  const [idCategory, setIdCategory] = useState(1);
+
   const updateSearch = text => {
     setSearch(text);
-    debounceSearch(text);
+    debouncedSearch(text);
   };
-  const debounceSearch = debounce(text => {
-    console.log(text);
-  }, 2000);
+  const debouncedSearch = useCallback(
+    debounce(text => searchMedicineByName(text, idCategory, setMedicines), 500), // 500ms delay
+    [idCategory],
+  );
+  // const implementSearchByKeyword = async () => {
+  //   searchMedicineByName(search, setMedicines);
+  // };
   const handleArrow = () => {
     navigation.navigate('BenefitScreen');
   };
@@ -72,7 +81,10 @@ export default function MedicinesScreen({navigation}) {
           </Pressable>
         </View>
       </View>
-      <HorizontalScroll setMedicines={setMedicines} />
+      <HorizontalScroll
+        setMedicines={setMedicines}
+        setIdCategory={setIdCategory}
+      />
       <ListMedicines medicines={medicines} navigation={navigation} />
     </View>
   );

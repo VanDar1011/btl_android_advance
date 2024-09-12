@@ -3,10 +3,12 @@ import {View, Image, ScrollView, Pressable} from 'react-native';
 import {Text} from 'react-native-elements';
 import styles from './style';
 import formatCurrency from '../../utils/formatMoney';
+import {getProfile} from '../../utils/user/profileUser';
+import buyMedicines from '../../utils/medicines/buyMedinces';
 import BuyMedicineModel from '../../components/Modal/BuyMedicineModel';
 export default function DetailsMedicineScreen({route, navigation}) {
   const {item} = route.params;
-  console.log('medicine detail', item);
+  // console.log('medicine detail', item);
   const [medicine, setMedicine] = useState(item);
   const [modalVisible, setModalVisible] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -22,12 +24,30 @@ export default function DetailsMedicineScreen({route, navigation}) {
   const handleBuyPress = () => {
     setModalVisible(true);
   };
-  const handleBuyMedicine = () => {
-    console.log('Buy');
-    console.log('Name', medicine.name);
-    console.log('ID', medicine.id);
-    console.log('Quantity', quantity);
+  const handleBuyMedicine = async () => {
+    // console.log('Buy');
+    // console.log('Name', medicine.name);
+    // console.log('ID', medicine.id);
+    // console.log('Quantity', quantity);
+    // "user_id":2, "product_id": 1, "quantity":2, "status":"pending","name":1,"description":"abc","old_price":1000,"new_price":
+    // 10000
+    const {userId} = await getProfile();
+    // console.log({userId});
+    const data = {
+      user_id: +userId,
+      product_id: medicine.id,
+      quantity,
+      status: 'pending',
+      image: medicine.image,
+      name: medicine.name,
+      description: medicine.description,
+      old_price: medicine.old_price,
+      new_price: medicine.new_price,
+    };
+    await buyMedicines(data);
+    setQuantity(1);
     setModalVisible(false);
+    navigation.navigate('Medicines');
   };
   const handleCloseModal = () => {
     setModalVisible(false);

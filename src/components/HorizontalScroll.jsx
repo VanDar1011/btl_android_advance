@@ -4,7 +4,7 @@ import fetchMedicinesCategories from '../utils/medicines/fetchMedicineCategories
 import ItemCategory from './ItemCategory';
 import fetchMedicinesByCategory from '../utils/medicines/fectchMedicinesByCategory';
 import fetchMedicines from '../utils/medicines/fetchMedicines';
-const HorizontalScroll = ({setMedicines}) => {
+const HorizontalScroll = ({setMedicines, setIdCategory}) => {
   const [categories, setCategories] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const handlePressAll = async name => {
@@ -17,6 +17,7 @@ const HorizontalScroll = ({setMedicines}) => {
   };
   const handlePress = async (name, id) => {
     console.log(name, id);
+    setIdCategory(id);
     setSelectedOption(name);
     try {
       await fetchMedicinesByCategory(id, setMedicines);

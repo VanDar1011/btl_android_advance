@@ -68,5 +68,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     columnGap: 20,
   },
+  container_quantity: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
 });
 export default styles;
