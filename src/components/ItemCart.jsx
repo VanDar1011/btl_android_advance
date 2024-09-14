@@ -1,16 +1,28 @@
 import React from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+// import CheckBox from '@react-native-community/checkbox';
 import {Swipeable} from 'react-native-gesture-handler';
 import formatCurrency from '../utils/formatMoney';
 import Icon from 'react-native-vector-icons/FontAwesome';
-const CartItem = ({item, onIncrease, onDecrease, onDelete}) => {
+import {CheckBox} from 'react-native-elements';
+const CartItem = ({
+  item,
+  onIncrease,
+  onDecrease,
+  onDelete,
+  selectItem,
+  itemsSelected,
+}) => {
+  const handleChangeValue = () => {
+    console.log('handleChangeValue');
+  };
   // Render nút xóa khi vuốt
   const renderRightActions = () => (
     <View style={styles.containerDelete}>
       <TouchableOpacity
         onPress={() => onDelete(item.id)}
         style={styles.deleteButton}>
-        <Icon name="trash" size={20} color="white" />
+        <Icon name="trash" size={20} style={styles.deleteButtonText} />
       </TouchableOpacity>
     </View>
   );
@@ -18,10 +30,20 @@ const CartItem = ({item, onIncrease, onDecrease, onDelete}) => {
   return (
     <Swipeable renderRightActions={renderRightActions}>
       <View style={styles.container}>
+        <CheckBox
+          checked={itemsSelected.includes(item.id)}
+          onPress={() => selectItem(item.id)}
+        />
+        {/* <CheckBox
+          value={itemsSelected.includes(item.id)}
+          onValueChange={selectItem}
+        /> */}
         <Image source={{uri: item.image}} style={styles.image} />
         <View style={styles.details}>
           <Text style={styles.name}>{item.name}</Text>
-          <Text style={styles.price}>{formatCurrency(item.new_price)}</Text>
+          <Text style={styles.price}>
+            Giá : {formatCurrency(item.new_price)}
+          </Text>
           <View style={styles.quantityContainer}>
             <TouchableOpacity
               onPress={() => onDecrease(item.id)}
@@ -31,7 +53,7 @@ const CartItem = ({item, onIncrease, onDecrease, onDelete}) => {
             <Text style={styles.quantity}>{item.quantity}</Text>
             <TouchableOpacity
               onPress={() => onIncrease(item.id)}
-              style={styles.button}>
+              style={[styles.button, styles.buttonIncreament]}>
               <Text style={styles.buttonText}>+</Text>
             </TouchableOpacity>
           </View>
@@ -43,12 +65,13 @@ const CartItem = ({item, onIncrease, onDecrease, onDelete}) => {
 
 const styles = StyleSheet.create({
   container: {
+    marginHorizontal: 20,
+    marginVertical: 10,
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 15,
     backgroundColor: '#ffffff',
-    marginVertical: 5,
     elevation: 3,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
@@ -72,6 +95,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   price: {
+    paddingLeft: 10,
     fontSize: 16,
     color: '#4caf50',
     marginBottom: 10,
@@ -86,8 +110,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#e0e0e0',
-    borderRadius: 5,
+    borderRadius: 15,
     marginHorizontal: 5,
+  },
+  buttonIncreament: {
+    backgroundColor: '#4caf50',
   },
   buttonText: {
     fontSize: 20,
@@ -105,14 +132,14 @@ const styles = StyleSheet.create({
   deleteButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: 40, // Giảm kích thước nút
+    width: 40,
     height: 40,
-    backgroundColor: 'green',
+    backgroundColor: 'white',
     borderRadius: 5,
   },
   deleteButtonText: {
-    color: '#f3f3f3',
-    fontSize: 12,
+    color: 'red',
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });
