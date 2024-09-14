@@ -10,7 +10,7 @@ export default function ItemArticles({item, navigation}) {
         <Image
           source={{uri: item.image}}
           style={styles.articleImage}
-          resizeMode="cover" // Ensures the image covers the area
+          resizeMode="cover"
         />
       </View>
 

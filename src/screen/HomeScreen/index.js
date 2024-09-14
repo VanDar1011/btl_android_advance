@@ -1,55 +1,44 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, Pressable, Image} from 'react-native';
 import styles from './style';
+import {Icon} from 'react-native-elements';
 import {getProfile} from '../../utils/user/profileUser';
+import Sidebar from '../../components/Sidebar';
 export default function HomeVip({navigation}) {
-  const handleCartPress = () => {
-    console.log('Cart Pressed');
-    navigation.navigate('Cart');
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+  // const [profile, setProfile] = useState(null);
+  const handleNavigate = screen => {
+    // Đóng sidebar
+    navigation.navigate(screen); // Điều hướng đến màn hình tương ứng
   };
-
-  const handleMedicinesPress = () => {
-    navigation.navigate('Medicines');
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
   };
-
-  const handleAppointmentPress = () => {
-    navigation.navigate('Appointment');
-  };
-  const handleAppointmentDetailPress = () => {
-    navigation.navigate('AppointmentDetails');
-  };
-  const handleArticlesPress = () => {
-    navigation.navigate('Articles');
-  };
-
-  const handleLogoutPress = () => {
-    navigation.navigate('Login');
-  };
-  const [profile, setProfile] = useState({userId: null, name: null});
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const {userId, name} = await getProfile();
-      console.log({userId, name});
-      // setProfile({userId, name});
-    };
-
-    fetchProfile();
-  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.row_logo}>
-        <View>
-          <Text style={styles.text_profile}>
-            Chào <Text>{profile.name}!</Text>
-          </Text>
-          <Text style={styles.text_hello}>Hôm nay bạn thế nào ?</Text>
-        </View>
+        <Pressable onPress={toggleSidebar} style={styles.menuIcon}>
+          <Icon name="menu" size={30} color="#000" />
+        </Pressable>
         <Image
           source={require('../../assets/img/logo_stand.png')}
           style={styles.logo}
         />
+        <Pressable
+          onPress={() => handleNavigate('Profile')}
+          style={styles.menuIcon}>
+          <Icon name="account-circle" size={30} color="#000" />
+        </Pressable>
       </View>
+      {sidebarVisible && (
+        <Sidebar
+          visible={sidebarVisible}
+          toggleSidebar={toggleSidebar}
+          navigation={navigation}
+          // profile={profile}
+        />
+      )}
+
       <View style={styles.container_row_appoiment}>
         <View style={styles.row_appoiment}>
           <View>
@@ -58,7 +47,7 @@ export default function HomeVip({navigation}) {
             </Text>
             <Pressable
               style={styles.container_button_appoiment}
-              onPress={handleAppointmentPress}>
+              onPress={() => handleNavigate('Appointment')}>
               <Text style={styles.text_button_appoiment}>Đặt ngay</Text>
             </Pressable>
           </View>
@@ -76,7 +65,7 @@ export default function HomeVip({navigation}) {
           <View>
             <Pressable
               style={styles.item_service}
-              onPress={handleAppointmentPress}>
+              onPress={() => handleNavigate('Appointment')}>
               <Image
                 source={require('../../assets/icon/medicalAppointment.png')}
                 style={styles.img_item_service}
@@ -87,7 +76,7 @@ export default function HomeVip({navigation}) {
           <View>
             <Pressable
               style={styles.item_service}
-              onPress={handleMedicinesPress}>
+              onPress={() => handleNavigate('Medicines')}>
               <Image
                 source={require('../../assets/icon/medicine.png')}
                 style={styles.img_item_service}
@@ -96,7 +85,9 @@ export default function HomeVip({navigation}) {
             <Text style={styles.name_item_service}>Mua thuốc</Text>
           </View>
           <View>
-            <Pressable style={styles.item_service} onPress={handleCartPress}>
+            <Pressable
+              style={styles.item_service}
+              onPress={() => handleNavigate('Cart')}>
               <Image
                 source={require('../../assets/icon/cart.png')}
                 style={styles.img_item_service}
@@ -107,7 +98,7 @@ export default function HomeVip({navigation}) {
           <View>
             <Pressable
               style={styles.item_service}
-              onPress={handleArticlesPress}>
+              onPress={() => handleNavigate('Articles')}>
               <Image
                 source={require('../../assets/icon/blog.png')}
                 style={styles.img_item_service}
@@ -115,19 +106,12 @@ export default function HomeVip({navigation}) {
             </Pressable>
             <Text style={styles.name_item_service}>Bài viêt</Text>
           </View>
-          {/* <Pressable style={styles.item_service} onPress={handleLogoutPress}>
-            <Image
-              source={require('../assets/img/logout.png')}
-              style={styles.img_item_service}
-            />
-          </Pressable> */}
-          {/* </ScrollView> */}
         </View>
       </View>
       <View style={styles.appoiment_details}>
         <View style={styles.row_appoiment_details_title}>
           <Text style={styles.appoiment_details_title}>Lịch hẹn của bạn</Text>
-          <Pressable onPress={handleAppointmentDetailPress}>
+          <Pressable onPress={() => handleNavigate('Appointment')}>
             <Text style={styles.btn_details}>Xem tất cả</Text>
           </Pressable>
         </View>
@@ -135,115 +119,3 @@ export default function HomeVip({navigation}) {
     </View>
   );
 }
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     paddingHorizontal: 20,
-//     // alignItems: 'center',
-//     // justifyContent: 'center',
-//   },
-//   row_logo: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//   },
-//   logo: {
-//     width: 80,
-//     height: 80,
-//   },
-//   logo_doctor: {
-//     width: 100,
-//     height: 100,
-//     borderRadius: 40,
-//   },
-//   text_profile: {
-//     paddingTop: 10,
-//     fontSize: 22,
-//     color: '#006980',
-//   },
-//   text_hello: {
-//     fontSize: 16,
-//     color: '#4CD20A',
-//   },
-
-//   container_row_appoiment: {
-//     // justifyContent: 'center',
-//     // alignItems: 'center',
-//     marginVertical: 5,
-//   },
-//   row_appoiment: {
-//     width: '100%',
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     paddingHorizontal: 40,
-//     paddingVertical: 25,
-//     borderRadius: 20,
-//     backgroundColor: '#4CD20A',
-//   },
-//   text_row_appoiment: {
-//     color: 'white',
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//   },
-//   container_button_appoiment: {
-//     marginVertical: 10,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: 'white',
-//     borderRadius: 20,
-//     width: 100,
-//     padding: 10,
-//   },
-//   text_button_appoiment: {
-//     color: '#4DD409',
-//     fontSize: 16,
-//   },
-//   service: {},
-//   service_title: {
-//     marginVertical: 10,
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     color: '#006980',
-//   },
-//   service_list: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//   },
-//   item_service: {
-//     padding: 20,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     borderRadius: 20,
-//     borderWidth: 2,
-//     borderColor: '#cccccc',
-//     zIndex: 1,
-//   },
-//   img_item_service: {
-//     width: 40,
-//     height: 40,
-//   },
-//   name_item_service: {
-//     textAlign: 'center',
-//     color: '#00687E',
-//   },
-//   appoiment_details: {
-//     marginTop: 20,
-//     flex: 1,
-//     // backgroundColor: 'red',
-//   },
-//   row_appoiment_details_title: {
-//     flexDirection: 'row',
-//     marginVertical: 10,
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//   },
-//   appoiment_details_title: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     color: '#006980',
-//   },
-//   btn_details: {
-//     color: '#006D77',
-//     // fontWeight: 200,
-//   },
-// });

@@ -20,8 +20,8 @@ const setProfile = async (userId, username) => {
     console.log('set profile');
     await AsyncStorage.setItem('user_id', userId);
     await AsyncStorage.setItem('name', username);
-    console.log('User ID saved successfully');
-    console.log('Name saved successfully');
+    console.log('User ID saved successfully', userId);
+    console.log('Name saved successfully', username);
   } catch (e) {
     console.error('Failed to save the user ID.', e);
   }
