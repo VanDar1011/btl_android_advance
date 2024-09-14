@@ -46,16 +46,6 @@ export default function LoginScreen({navigation}) {
     // Perform actions with the validated form data
     // console.log(formData);
     try {
-      // const {email, password} = formData;
-      // console.log(email, password);
-      // const res1 = await fetch(`http://192.168.0.3:4000/test`, {
-      //   method: 'GET',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      // });
-      // const result1 = await res1.json();
-      // console.log(result1);
       const res = await fetch(`${API_APP}/v1/api/auth/login`, {
         method: 'POST',
         body: JSON.stringify(formData),
@@ -71,9 +61,9 @@ export default function LoginScreen({navigation}) {
       }
       const userId = result.data.id.toString();
       const username = result.data.name.toString();
-      setProfile(userId, username);
+      await setProfile(userId, username);
       Alert.alert('Login Success', `${result.message}`);
-      navigation.navigate('Vip');
+      navigation.navigate('Home');
     } catch (error) {
       console.log(error);
     }

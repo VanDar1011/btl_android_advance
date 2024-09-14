@@ -13,6 +13,8 @@ import MedicineBenefitScreen from '../components/MedicineBenefitScreen';
 import TermsPrivacyScreen from '../components/TermsPrivacyScreen';
 import DetailsMedicineScreen from '../screen/DetailsMedicineScreen';
 import MedicinesScreen from '../screen/MedicinesScreen';
+import ArcilesDetailsScreen from '../screen/ArctilesDetailsScreen';
+import ProfileScreen from '../screen/Profile';
 const Routes = ({navigation}) => {
   return (
     <NavigationContainer>
@@ -58,8 +60,19 @@ const Routes = ({navigation}) => {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name="ArctilesDetails"
+          component={ArcilesDetailsScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="AppointmentDetails"
           component={AppointmentDetailsScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="BenefitScreen"
