@@ -3,12 +3,19 @@ import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import CartItem from '../../components/ItemCart'; // Đảm bảo bạn đã tạo CartItem component
 import fetchOrderById from '../../utils/order/fetchOrderById';
 import {getProfile} from '../../utils/user/profileUser';
-// Dữ liệu giả lập cho giỏ hàng
+import deleteOrderById from '../../utils/order/deleteOrderById';
+import updateQuantity from '../../utils/order/updateQuantity';
+import paymentCart from '../../utils/order/paymentCart';
 
+import formatCurrency from '../../utils/formatMoney';
 const CartScreen = () => {
   const [items, setItems] = useState([]);
+  const [itemsSelected, setItemsSelected] = useState([]);
 
-  const increaseQuantity = id => {
+  const increaseQuantity = async id => {
+    const quantity = items.find(item => item.id === id).quantity;
+    // console.log(quantity);
+    await updateQuantity(id, quantity + 1);
     setItems(prevItems =>
       prevItems.map(item =>
         item.id === id ? {...item, quantity: item.quantity + 1} : item,
@@ -16,7 +23,10 @@ const CartScreen = () => {
     );
   };
 
-  const decreaseQuantity = id => {
+  const decreaseQuantity = async id => {
+    const quantity = items.find(item => item.id === id).quantity;
+    // console.log(quantity);
+    await updateQuantity(id, quantity - 1);
     setItems(prevItems =>
       prevItems.map(item =>
         item.id === id && item.quantity > 1
@@ -26,15 +36,41 @@ const CartScreen = () => {
     );
   };
 
-  const deleteItem = id => {
+  const deleteItem = async id => {
+    await deleteOrderById(id);
     setItems(prevItems => prevItems.filter(item => item.id !== id));
   };
 
   // Tính tổng số tiền
-  const totalAmount = items.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0,
-  );
+  // const totalAmount = itemsSelected.reduce(
+  //   (total, item) => total + item.new_price * item.quantity,
+  //   0,
+  // );
+  const totalAmount = items
+    .filter(item => itemsSelected.includes(item.id))
+    .reduce((total, item) => total + item.new_price * item.quantity, 0);
+
+  const paymentCarts = async () => {
+    itemsSelected.map(async id => {
+      await paymentCart(id);
+    });
+    setItems(prevItems =>
+      prevItems.filter(item => !itemsSelected.includes(item.id)),
+    );
+    setItemsSelected([]);
+  };
+  const selectItem = id => {
+    console.log(id);
+    if (itemsSelected.includes(id)) {
+      setItemsSelected(itemsSelected.filter(item => item !== id));
+    } else {
+      setItemsSelected([...itemsSelected, id]);
+    }
+  };
+  useEffect(() => {
+    console.log('Items Selected:', itemsSelected);
+  }, [itemsSelected]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -67,6 +103,8 @@ const CartScreen = () => {
             onIncrease={increaseQuantity}
             onDecrease={decreaseQuantity}
             onDelete={deleteItem}
+            selectItem={selectItem}
+            itemsSelected={itemsSelected}
           />
         )}
         keyExtractor={item => item.id}
@@ -74,8 +112,8 @@ const CartScreen = () => {
       />
       <View style={styles.footer}>
         <Text style={styles.totalText}>Thành Tiền:</Text>
-        <Text style={styles.totalAmount}>${totalAmount.toFixed(2)}</Text>
-        <TouchableOpacity style={styles.checkoutButton}>
+        <Text style={styles.totalAmount}>{formatCurrency(totalAmount)}</Text>
+        <TouchableOpacity style={styles.checkoutButton} onPress={paymentCarts}>
           <Text style={styles.checkoutButtonText}>Thanh Toán</Text>
         </TouchableOpacity>
       </View>
@@ -92,6 +130,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: 'black',
     textAlign: 'center',
   },
   list: {
@@ -113,7 +152,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   checkoutButton: {
-    backgroundColor: '#FF6347',
+    backgroundColor: '#4caf50',
     padding: 10,
     borderRadius: 5,
   },

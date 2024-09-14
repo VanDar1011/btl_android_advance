@@ -5,6 +5,8 @@
   "scripts": {
     "android": "npx react-native run-android --deviceId=emulator-5554",
     "ios": "react-native run-ios",
+    "reset": "npm start -- --reset-cache",
+    "kport": "npx kill-port 8081",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"
@@ -12,6 +14,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@react-native-async-storage/async-storage": "^2.0.0",
+    "@react-native-community/checkbox": "^0.5.17",
     "@react-native-community/slider": "^4.5.2",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
