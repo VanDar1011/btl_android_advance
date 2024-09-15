@@ -82,7 +82,7 @@ const CartScreen = () => {
         // Gọi API lấy dữ liệu giỏ hàng sau khi có userId
         if (userId) {
           const cartItems = await fetchOrderById(userId, 'pending', setItems); // Gọi API lấy giỏ hàng
-          console.log('Cart Items:', cartItems);
+          // console.log('Cart Items:', cartItems);
         }
       } catch (error) {
         console.error('Error fetching profile or cart:', error);

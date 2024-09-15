@@ -15,10 +15,13 @@ import {useForm, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import GradientButton from '../../../components/GradientButton';
 import {setProfile} from '../../../utils/user/profileUser';
+import {setProfileRedux} from '../../../store/slice/profileSlice';
+import {useDispatch, useSelector} from 'react-redux';
 const API_APP = process.env['API_APP'];
 const test = process.env['TEST']; // lay bien moi truong
 // console.log(API_APP, test);
 export default function LoginScreen({navigation}) {
+  const dispatch = useDispatch();
   const [isSecure, setIsSecure] = useState(true);
 
   const toggleSecureEntry = () => {
@@ -59,9 +62,12 @@ export default function LoginScreen({navigation}) {
         Alert.alert('Login Failed', `${result.message}`);
         return;
       }
+      console.log(result);
       const userId = result.data.id.toString();
-      const username = result.data.name.toString();
-      await setProfile(userId, username);
+      const name = result.data.name.toString();
+      console.log(userId, name);
+      await setProfile(userId, name);
+      dispatch(setProfileRedux({userId, name}));
       Alert.alert('Login Success', `${result.message}`);
       navigation.navigate('Home');
     } catch (error) {

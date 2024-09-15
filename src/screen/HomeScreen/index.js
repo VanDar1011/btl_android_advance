@@ -3,10 +3,16 @@ import {View, Text, Pressable, Image} from 'react-native';
 import styles from './style';
 import {Icon} from 'react-native-elements';
 import {getProfile} from '../../utils/user/profileUser';
+import {setProfileRedux} from '../../store/slice/profileSlice';
 import Sidebar from '../../components/Sidebar';
+import ListAppoinemt from '../../components/ListAppoinemt';
+import {useDispatch, useSelector} from 'react-redux';
 export default function HomeVip({navigation}) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   // const [profile, setProfile] = useState(null);
+  const dispatch = useDispatch();
+  const profile = useSelector(state => state.profile);
+  console.log('profile', profile);
   const handleNavigate = screen => {
     // Đóng sidebar
     navigation.navigate(screen); // Điều hướng đến màn hình tương ứng
@@ -14,6 +20,19 @@ export default function HomeVip({navigation}) {
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
   };
+  const fetchProfile = async () => {
+    try {
+      const {userId, name} = await getProfile();
+      dispatch(setProfileRedux({userId, name}));
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
+  };
+
+  // Fetch profile when the component mounts or after a successful login
+  useEffect(() => {
+    fetchProfile();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.row_logo}>
@@ -111,10 +130,11 @@ export default function HomeVip({navigation}) {
       <View style={styles.appoiment_details}>
         <View style={styles.row_appoiment_details_title}>
           <Text style={styles.appoiment_details_title}>Lịch hẹn của bạn</Text>
-          <Pressable onPress={() => handleNavigate('Appointment')}>
+          <Pressable onPress={() => handleNavigate('AppointmentDetails')}>
             <Text style={styles.btn_details}>Xem tất cả</Text>
           </Pressable>
         </View>
+        <ListAppoinemt profile={profile} />
       </View>
     </View>
   );
