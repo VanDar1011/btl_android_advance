@@ -15,18 +15,13 @@ import DetailsMedicineScreen from '../screen/DetailsMedicineScreen';
 import MedicinesScreen from '../screen/MedicinesScreen';
 import ArcilesDetailsScreen from '../screen/ArctilesDetailsScreen';
 import ProfileScreen from '../screen/Profile';
-const Routes = ({navigation}) => {
+const Routes = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           name="Home"
           component={HomeVip}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Cart"
-          component={CartScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -40,18 +35,18 @@ const Routes = ({navigation}) => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Register"
-          component={RegisterScreen}
+          name="Cart"
+          component={CartScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="Appointment"
           component={AppointmentScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AppointmentDetails"
+          component={AppointmentDetailsScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -62,11 +57,6 @@ const Routes = ({navigation}) => {
         <Stack.Screen
           name="ArctilesDetails"
           component={ArcilesDetailsScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="AppointmentDetails"
-          component={AppointmentDetailsScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -82,6 +72,16 @@ const Routes = ({navigation}) => {
         <Stack.Screen
           name="TermsPrivacyScreen"
           component={TermsPrivacyScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Register"
+          component={RegisterScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

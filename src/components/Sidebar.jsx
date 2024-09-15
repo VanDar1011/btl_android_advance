@@ -16,11 +16,11 @@ const {width, height} = Dimensions.get('window'); // lấy cả chiều cao màn
 
 const Sidebar = ({navigation, toggleSidebar, visible}) => {
   const [profile, setProfile] = useState(null);
-  console.log('profile: ', profile);
+  // console.log('profile: ', profile);
   const [translateX] = useState(new Animated.Value(-width * 0.75)); // 3/4 màn hình
   const fetchProfile = async () => {
     const {userId, name} = await getProfile();
-    console.log({userId, name});
+    // console.log({userId, name});
     setProfile({userId, name});
   };
   useEffect(() => {
@@ -69,15 +69,15 @@ const Sidebar = ({navigation, toggleSidebar, visible}) => {
           />
         </View>
         <TouchableOpacity
-          onPress={() => handleNavigate('Schedule')}
+          onPress={() => handleNavigate('Appointment')}
           style={styles.menuItem}>
           <Text style={styles.menuText}>Đặt lịch</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => handleNavigate('DoctorGroup')}
+          onPress={() => handleNavigate('AppointmentDetails')}
           style={styles.menuItem}>
-          <Text style={styles.menuText}>Nhóm bác sĩ</Text>
+          <Text style={styles.menuText}>Danh sách lịch hẹn</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -87,15 +87,14 @@ const Sidebar = ({navigation, toggleSidebar, visible}) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => handleNavigate('BuyMedicine')}
+          onPress={() => handleNavigate('Medicines')}
           style={styles.menuItem}>
           <Text style={styles.menuText}>Mua thuốc</Text>
         </TouchableOpacity>
-
         <TouchableOpacity
-          onPress={() => handleNavigate('Logout')}
+          onPress={() => handleNavigate('Articles')}
           style={styles.menuItem}>
-          <Text style={styles.menuText}>Đăng xuất</Text>
+          <Text style={styles.menuText}>Bài viết</Text>
         </TouchableOpacity>
       </Animated.View>
     </View>
@@ -139,6 +138,9 @@ const styles = StyleSheet.create({
   },
   menuItem: {
     paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    marginBottom: 10,
   },
   menuText: {
     fontSize: 18,

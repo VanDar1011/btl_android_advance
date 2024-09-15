@@ -12,7 +12,7 @@ const byMedinines = async data => {
   const dataRes = await res.json();
   console.log(dataRes);
   if (!res.ok) {
-    throw new Error(data.message || 'Something went wrong');
+    throw new Error(dataRes.message || 'Something went wrong');
   }
   toastCustom('Order created successfully');
 };

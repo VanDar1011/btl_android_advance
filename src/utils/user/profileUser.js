@@ -8,6 +8,7 @@ const getProfile = async () => {
     if (userId !== null && name !== null) {
       console.log('User ID:', userId);
       console.log('Name:', name);
+      console.log('--------------------------------------');
       // Do something with the user ID, e.g., navigate to the home screen
     }
     return {userId, name};
@@ -15,15 +16,25 @@ const getProfile = async () => {
     console.error('Failed to retrieve the user ID.', e);
   }
 };
-const setProfile = async (userId, username) => {
+const setProfile = async (userId, name) => {
   try {
     console.log('set profile');
     await AsyncStorage.setItem('user_id', userId);
-    await AsyncStorage.setItem('name', username);
+    await AsyncStorage.setItem('name', name);
     console.log('User ID saved successfully', userId);
-    console.log('Name saved successfully', username);
+    console.log('Name saved successfully', name);
+    console.log('.............................');
   } catch (e) {
     console.error('Failed to save the user ID.', e);
+  }
+};
+const deleteProfile = async () => {
+  try {
+    await AsyncStorage.removeItem('user_id');
+    await AsyncStorage.removeItem('name');
+    console.log('Profile deleted successfully');
+  } catch (e) {
+    console.error('Failed to delete the profile.', e);
   }
 };
 const getUserId = async () => {
@@ -67,4 +78,12 @@ const setUserName = async username => {
     console.error('Failed to save the user name.', e);
   }
 };
-export {setUserId, getUserId, getUserName, setUserName, getProfile, setProfile};
+export {
+  setUserId,
+  getUserId,
+  getUserName,
+  setUserName,
+  getProfile,
+  setProfile,
+  deleteProfile,
+};

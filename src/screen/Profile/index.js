@@ -3,8 +3,14 @@ import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'; // or any other icon set
 import styles from './style';
+import {deleteProfile} from '../../utils/user/profileUser';
+import {clearProfileRedux} from '../../store/slice/profileSlice';
+import {useDispatch, useSelector} from 'react-redux';
 const ProfileScreen = ({navigation}) => {
-  const handleLogout = () => {
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    await deleteProfile();
+    dispatch(clearProfileRedux());
     navigation.navigate('Login');
   };
 
